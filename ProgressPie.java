@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class ProgressPie {
 
+
     private int centreX = 50;
     private int centreY = 50;
     private int radius = 50;
@@ -76,7 +77,7 @@ public class ProgressPie {
     /**
      * Determines whether or not the input point is within the given progress pie
      * This is determined by:
-     *      Checking if the distance is less than the radius of the project pie
+     *      Checking if the distance is less than the radius of the progress pie
      *      Checking if the angle of the point is clockwise from the start of the sector
      *      Checking if the angle of the point is counter-clockwise from the end of the sector
      * @param point The point we are checking
@@ -85,17 +86,21 @@ public class ProgressPie {
      *          False if otherwise
      */
 
-    private boolean pointWithinSector(Point point, int percentage) {
+    public boolean pointWithinSector(Point point, int percentage) {
         if (percentage > 0) {
             double distanceToPoint = getDistanceToPoint(point);
             if (distanceToPoint <= radius) {
                 double pointAngle;
                 if (point.y != centreY) {
-                    pointAngle = Math.toDegrees(Math.acos((point.y - centreY) / distanceToPoint));
-                } else if (point.x != centreX) {
-                    pointAngle = Math.toDegrees(Math.asin((point.x - centreX) / distanceToPoint));
+                    pointAngle = Math.toDegrees(Math.atan2((point.x - centreX), (point.y - centreY)));
                 } else {
-                    pointAngle = 0;
+                    if (point.x > centreX) {
+                        pointAngle = 90;
+                    } else if (point.x < centreX) {
+                        pointAngle = 270;
+                    } else {
+                        pointAngle = 0;
+                    }
                 }
                 if (pointAngle < 0) {
                     pointAngle += 360;
